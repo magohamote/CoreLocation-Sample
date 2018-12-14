@@ -14,14 +14,7 @@ class LocationViewController: UIViewController {
 
     @IBOutlet weak var consoleOutputTextView: UITextView?
 
-    private lazy var locationManager: CLLocationManager = {
-        let manager = CLLocationManager()
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.delegate = self
-        manager.requestAlwaysAuthorization()
-        manager.allowsBackgroundLocationUpdates = true
-        return manager
-    }()
+    private let locationManager = LocationManager()
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -29,25 +22,14 @@ class LocationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setNeedsStatusBarAppearanceUpdate()
-        
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        locationManager.startUpdatingLocation()
+        locationManager.locationManagerDelegate = self
     }
 }
 
-// MARK: - CLLocationManagerDelegate
-extension LocationViewController: CLLocationManagerDelegate {
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let mostRecentLocation = locations.last else {
-            return
-        }
-
-        let newLocation = "lat: \(mostRecentLocation.coordinate.latitude)\nlon: \(mostRecentLocation.coordinate.longitude)\n\n"
-        updateConsoleTextView(with: newLocation)
-        print(newLocation)
+extension LocationViewController: LocationManagerDelegate {
+    func locationManager(_ locationManager: LocationManager, didUpdate output: String) {
+        updateConsoleTextView(with: output)
     }
 
     private func updateConsoleTextView(with text: String) {
