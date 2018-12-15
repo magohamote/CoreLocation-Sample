@@ -24,7 +24,6 @@ class LocationManager: NSObject {
                 return
             }
 
-            print(locationOutput)
             locationManagerDelegate?.locationManager(self, didUpdate: locationOutput)
         }
     }
@@ -54,6 +53,6 @@ extension LocationManager: CLLocationManagerDelegate {
             return
         }
 
-        locationOutput = "lat: \(mostRecentLocation.coordinate.latitude)\nlon: \(mostRecentLocation.coordinate.longitude)\n\n"
+        locationOutput = "lat: \(mostRecentLocation.coordinate.latitude)\nlon: \(mostRecentLocation.coordinate.longitude)"
     }
 }

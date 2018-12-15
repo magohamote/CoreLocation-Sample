@@ -46,10 +46,12 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>You must enable location in order to make this app work</string>
+	<string>We need your location data in order to determine which mean of transportation your are using.</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSMotionUsageDescription</key>
+	<string>We need your motion data in order to determine which mean of transportation your are using.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>You must enable location in order to make this app work</string>
+	<string>We need your location data in order to determine which mean of transportation your are using.</string>
 </dict>
 </plist>

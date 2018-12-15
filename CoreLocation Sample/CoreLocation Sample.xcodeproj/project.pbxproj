@@ -13,6 +13,7 @@
 		82A71FD621C40EAC00BBFB56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82A71FD521C40EAC00BBFB56 /* Assets.xcassets */; };
 		82A71FD921C40EAC00BBFB56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82A71FD721C40EAC00BBFB56 /* LaunchScreen.storyboard */; };
 		82A71FE121C4253700BBFB56 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A71FE021C4253700BBFB56 /* LocationManager.swift */; };
+		82A71FE921C43A4500BBFB56 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A71FE821C43A4500BBFB56 /* MotionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		82A71FD821C40EAC00BBFB56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		82A71FDA21C40EAC00BBFB56 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82A71FE021C4253700BBFB56 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		82A71FE821C43A4500BBFB56 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				82A71FCE21C40EA900BBFB56 /* AppDelegate.swift */,
 				82A71FD021C40EA900BBFB56 /* LocationViewController.swift */,
 				82A71FE021C4253700BBFB56 /* LocationManager.swift */,
+				82A71FE821C43A4500BBFB56 /* MotionManager.swift */,
 				82A71FD221C40EA900BBFB56 /* Main.storyboard */,
 				82A71FD521C40EAC00BBFB56 /* Assets.xcassets */,
 				82A71FD721C40EAC00BBFB56 /* LaunchScreen.storyboard */,
@@ -146,6 +149,7 @@
 				82A71FD121C40EA900BBFB56 /* LocationViewController.swift in Sources */,
 				82A71FCF21C40EA900BBFB56 /* AppDelegate.swift in Sources */,
 				82A71FE121C4253700BBFB56 /* LocationManager.swift in Sources */,
+				82A71FE921C43A4500BBFB56 /* MotionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
