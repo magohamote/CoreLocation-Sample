@@ -10,7 +10,7 @@ import UIKit
 import CoreMotion
 
 protocol MotionManagerDelegate {
-    func motionManager(_ motionManager: MotionManager, didUpdate meanOfTransportation: String)
+    func motionManagerDidUpdate(_ motionManager: MotionManager)
 }
 
 class MotionManager: NSObject {
@@ -48,7 +48,7 @@ class MotionManager: NSObject {
 
             let meanOfTransportation = self.getMeanOfTransportation(motionResult: self.getMotionResult(activity))
             self.lastDetectedMeanOfTransportation = meanOfTransportation
-            self.motionManagerDelegate?.motionManager(self, didUpdate: meanOfTransportation)
+            self.motionManagerDelegate?.motionManagerDidUpdate(self)
         }
     }
 

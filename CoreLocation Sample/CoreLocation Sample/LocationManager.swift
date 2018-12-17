@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 protocol LocationManagerDelegate {
-    func locationManager(_ locationManager: LocationManager, didUpdate location: String)
+    func locationManagerDidUpdate(_ locationManager: LocationManager)
 }
 
 class LocationManager: NSObject {
@@ -43,6 +43,6 @@ extension LocationManager: CLLocationManagerDelegate {
 
         let locationOutput = "lat: \(mostRecentLocation.coordinate.latitude)\nlon: \(mostRecentLocation.coordinate.longitude)"
         lastLocationOutput = locationOutput
-        locationManagerDelegate?.locationManager(self, didUpdate: locationOutput)
+        locationManagerDelegate?.locationManagerDidUpdate(self)
     }
 }
