@@ -26,6 +26,7 @@ class LocationViewController: UIViewController {
         setNeedsStatusBarAppearanceUpdate()
 
         locationManager.locationManagerDelegate = self
+        motionManager.motionManagerDelegate = self
 
         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -52,9 +53,23 @@ class LocationViewController: UIViewController {
                 self.updateConsoleOutput(text: "\n--------------------\n")
                 self.updateConsoleOutput(text: "the motion activity that happened in background\n")
 
-                activities.forEach { self.updateConsoleOutput(text: self.getMeanOfTransportation(motionResult: $0)) }
+                activities.forEach { self.updateConsoleOutput(text: $0) }
 
                 self.updateConsoleOutput(text: "--------------------\n")
+            }
+        }
+    }
+
+    private func updateConsoleTextView(withLocation location: String?, motion: String?) {
+        if let location = location {
+            updateConsoleOutput(text: location)
+        }
+
+        if UIApplication.shared.applicationState == .active {
+            if let motion = motion {
+                updateConsoleOutput(text: motion)
+            } else {
+                updateConsoleOutput(text: "\n")
             }
         }
     }
@@ -62,42 +77,21 @@ class LocationViewController: UIViewController {
     private func updateConsoleOutput(text: String) {
         print(text)
         consoleOutputTextView?.text = consoleOutputTextView?.text.appending(text + "\n")
+        let bottom = NSMakeRange((consoleOutputTextView?.text.count ?? 0) - 1, 1)
+        consoleOutputTextView?.scrollRangeToVisible(bottom)
     }
 }
 
 extension LocationViewController: LocationManagerDelegate {
     func locationManager(_ locationManager: LocationManager, didUpdate output: String) {
-        updateConsoleTextView(with: output)
+        print("location update")
+        updateConsoleTextView(withLocation: output, motion: motionManager.motionResultString)
     }
+}
 
-    private func updateConsoleTextView(with text: String) {
-        updateConsoleOutput(text: text)
-
-        if UIApplication.shared.applicationState == .active {
-            if let motionResult = motionManager.motionResult {
-                updateConsoleOutput(text: getMeanOfTransportation(motionResult: motionResult))
-            } else {
-                updateConsoleOutput(text: "\n")
-            }
-        }
-
-        let bottom = NSMakeRange((consoleOutputTextView?.text.count ?? 0) - 1, 1)
-        consoleOutputTextView?.scrollRangeToVisible(bottom)
-    }
-
-    private func getMeanOfTransportation(motionResult: MotionManager.MotionResult) -> String {
-        let unknownMOT = "We cannot determine your mean of transportation\n"
-
-        guard !motionResult.meanOfTransportation.contains(.unknown) else {
-            return unknownMOT
-        }
-
-        var output = motionResult.confidence + "you are "
-
-        for mean in motionResult.meanOfTransportation {
-            output += mean.rawValue + " "
-        }
-
-        return output + "\n"
+extension LocationViewController: MotionManagerDelegate {
+    func motionManager(_ motionManager: MotionManager, didUpdate activity: String) {
+        print("motion update")
+        updateConsoleTextView(withLocation: locationManager.locationOutput, motion: activity)
     }
 }

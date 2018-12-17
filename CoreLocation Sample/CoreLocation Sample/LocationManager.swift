@@ -18,7 +18,7 @@ class LocationManager: NSObject {
 
     var locationManagerDelegate: LocationManagerDelegate?
 
-    private var locationOutput: String? {
+    var locationOutput: String? {
         didSet {
             guard let locationOutput = locationOutput else {
                 return
@@ -30,17 +30,15 @@ class LocationManager: NSObject {
 
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
-        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         manager.delegate = self
-        manager.requestAlwaysAuthorization()
         manager.allowsBackgroundLocationUpdates = true
+        manager.requestAlwaysAuthorization()
         return manager
     }()
 
     override init() {
         super.init()
-
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.startUpdatingLocation()
     }
 }
