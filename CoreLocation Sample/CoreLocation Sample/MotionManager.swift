@@ -10,25 +10,15 @@ import UIKit
 import CoreMotion
 
 protocol MotionManagerDelegate {
-    func motionManager(_ motionManager: MotionManager, didUpdate activity: String)
+    func motionManager(_ motionManager: MotionManager, didUpdate meanOfTransportation: String)
 }
 
 class MotionManager: NSObject {
 
-    var motionResultString: String?
     var motionManagerDelegate: MotionManagerDelegate?
+    private(set) var meanOfTransportation: String?
 
-    private var motionResult: MotionResult? {
-        didSet {
-            guard let motionResult = motionResult else {
-                return
-            }
-
-            motionResultString = getMeanOfTransportation(motionResult: motionResult)
-        }
-    }
-
-    private typealias MotionResult = (meanOfTransportation: [MeanOfTransportation], confidence: String)
+    private typealias MotionResult = (meansOfTransportation: [MeanOfTransportation], confidence: String)
 
     private enum MeanOfTransportation: String {
         case walking = "walking 🚶🏼‍♂️"
@@ -56,17 +46,13 @@ class MotionManager: NSObject {
                 return
             }
 
-            self.motionResult = self.getMotionResult(activity)
-
-            guard let motionResultString = self.motionResultString else {
-                return
-            }
-
-            self.motionManagerDelegate?.motionManager(self, didUpdate: motionResultString)
+            let meanOfTransportation = self.getMeanOfTransportation(motionResult: self.getMotionResult(activity))
+            self.meanOfTransportation = meanOfTransportation
+            self.motionManagerDelegate?.motionManager(self, didUpdate: meanOfTransportation)
         }
     }
 
-    func getBackgroundMotionActivies(from fromDate: Date, completion: @escaping (_ activites: [String]?, _ error: Error?) -> Void) {
+    func getBackgroundMotionActivities(from fromDate: Date, completion: @escaping (_ activities: [String]?, _ error: Error?) -> Void) {
         motionManager.queryActivityStarting(from: fromDate, to: Date(), to: .main) { (activities, error) in
             guard let activities = activities else {
                 return
@@ -140,15 +126,13 @@ class MotionManager: NSObject {
     }
 
     private func getMeanOfTransportation(motionResult: MotionResult) -> String {
-        let unknownMOT = "We cannot determine your mean of transportation\n"
-
-        guard !motionResult.meanOfTransportation.contains(.unknown) else {
-            return unknownMOT
+        guard !motionResult.meansOfTransportation.contains(.unknown) else {
+            return "We cannot determine your mean of transportation\n"
         }
 
         var output = motionResult.confidence + "you are "
 
-        for mean in motionResult.meanOfTransportation {
+        for mean in motionResult.meansOfTransportation {
             output += mean.rawValue + " "
         }
 

@@ -43,7 +43,7 @@ class LocationViewController: UIViewController {
             return
         }
 
-        motionManager.getBackgroundMotionActivies(from: didEnterBackgroundDate) { (activities, error) in
+        motionManager.getBackgroundMotionActivities(from: didEnterBackgroundDate) { (activities, error) in
             guard let activities = activities else {
                 return
             }
@@ -60,14 +60,14 @@ class LocationViewController: UIViewController {
         }
     }
 
-    private func updateConsoleTextView(withLocation location: String?, motion: String?) {
+    private func updateConsole(withLocation location: String?, meanOfTransportation: String?) {
         if let location = location {
             updateConsoleOutput(text: location)
         }
 
         if UIApplication.shared.applicationState == .active {
-            if let motion = motion {
-                updateConsoleOutput(text: motion)
+            if let meanOfTransportation = meanOfTransportation {
+                updateConsoleOutput(text: meanOfTransportation)
             } else {
                 updateConsoleOutput(text: "\n")
             }
@@ -77,21 +77,19 @@ class LocationViewController: UIViewController {
     private func updateConsoleOutput(text: String) {
         print(text)
         consoleOutputTextView?.text = consoleOutputTextView?.text.appending(text + "\n")
-        let bottom = NSMakeRange((consoleOutputTextView?.text.count ?? 0) - 1, 1)
+        let bottom = NSMakeRange(consoleOutputTextView?.text.lengthOfBytes(using: String.Encoding.utf8) ?? 0, 0)
         consoleOutputTextView?.scrollRangeToVisible(bottom)
     }
 }
 
 extension LocationViewController: LocationManagerDelegate {
-    func locationManager(_ locationManager: LocationManager, didUpdate output: String) {
-        print("location update")
-        updateConsoleTextView(withLocation: output, motion: motionManager.motionResultString)
+    func locationManager(_ locationManager: LocationManager, didUpdate location: String) {
+        updateConsole(withLocation: location, meanOfTransportation: motionManager.meanOfTransportation)
     }
 }
 
 extension LocationViewController: MotionManagerDelegate {
-    func motionManager(_ motionManager: MotionManager, didUpdate activity: String) {
-        print("motion update")
-        updateConsoleTextView(withLocation: locationManager.locationOutput, motion: activity)
+    func motionManager(_ motionManager: MotionManager, didUpdate meanOfTransportation: String) {
+        updateConsole(withLocation: locationManager.locationOutput, meanOfTransportation: meanOfTransportation)
     }
 }

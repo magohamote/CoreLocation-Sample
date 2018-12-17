@@ -7,26 +7,16 @@
 //
 
 import UIKit
-
 import CoreLocation
 
 protocol LocationManagerDelegate {
-    func locationManager(_ locationManager: LocationManager, didUpdate output: String)
+    func locationManager(_ locationManager: LocationManager, didUpdate location: String)
 }
 
 class LocationManager: NSObject {
 
     var locationManagerDelegate: LocationManagerDelegate?
-
-    var locationOutput: String? {
-        didSet {
-            guard let locationOutput = locationOutput else {
-                return
-            }
-
-            locationManagerDelegate?.locationManager(self, didUpdate: locationOutput)
-        }
-    }
+    private(set) var locationOutput: String?
 
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
@@ -51,6 +41,8 @@ extension LocationManager: CLLocationManagerDelegate {
             return
         }
 
-        locationOutput = "lat: \(mostRecentLocation.coordinate.latitude)\nlon: \(mostRecentLocation.coordinate.longitude)"
+        let locationOutput = "lat: \(mostRecentLocation.coordinate.latitude)\nlon: \(mostRecentLocation.coordinate.longitude)"
+        self.locationOutput = locationOutput
+        locationManagerDelegate?.locationManager(self, didUpdate: locationOutput)
     }
 }
