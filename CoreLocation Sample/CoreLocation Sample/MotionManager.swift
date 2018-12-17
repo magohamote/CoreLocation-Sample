@@ -16,7 +16,7 @@ protocol MotionManagerDelegate {
 class MotionManager: NSObject {
 
     var motionManagerDelegate: MotionManagerDelegate?
-    private(set) var meanOfTransportation: String?
+    private(set) var lastDetectedMeanOfTransportation: String?
 
     private typealias MotionResult = (meansOfTransportation: [MeanOfTransportation], confidence: String)
 
@@ -47,7 +47,7 @@ class MotionManager: NSObject {
             }
 
             let meanOfTransportation = self.getMeanOfTransportation(motionResult: self.getMotionResult(activity))
-            self.meanOfTransportation = meanOfTransportation
+            self.lastDetectedMeanOfTransportation = meanOfTransportation
             self.motionManagerDelegate?.motionManager(self, didUpdate: meanOfTransportation)
         }
     }

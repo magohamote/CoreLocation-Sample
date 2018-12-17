@@ -84,12 +84,12 @@ class LocationViewController: UIViewController {
 
 extension LocationViewController: LocationManagerDelegate {
     func locationManager(_ locationManager: LocationManager, didUpdate location: String) {
-        updateConsole(withLocation: location, meanOfTransportation: motionManager.meanOfTransportation)
+        updateConsole(withLocation: location, meanOfTransportation: motionManager.lastDetectedMeanOfTransportation)
     }
 }
 
 extension LocationViewController: MotionManagerDelegate {
     func motionManager(_ motionManager: MotionManager, didUpdate meanOfTransportation: String) {
-        updateConsole(withLocation: locationManager.locationOutput, meanOfTransportation: meanOfTransportation)
+        updateConsole(withLocation: locationManager.lastLocationOutput, meanOfTransportation: meanOfTransportation)
     }
 }

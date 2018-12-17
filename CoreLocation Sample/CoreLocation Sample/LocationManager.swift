@@ -16,7 +16,7 @@ protocol LocationManagerDelegate {
 class LocationManager: NSObject {
 
     var locationManagerDelegate: LocationManagerDelegate?
-    private(set) var locationOutput: String?
+    private(set) var lastLocationOutput: String?
 
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
@@ -42,7 +42,7 @@ extension LocationManager: CLLocationManagerDelegate {
         }
 
         let locationOutput = "lat: \(mostRecentLocation.coordinate.latitude)\nlon: \(mostRecentLocation.coordinate.longitude)"
-        self.locationOutput = locationOutput
+        lastLocationOutput = locationOutput
         locationManagerDelegate?.locationManager(self, didUpdate: locationOutput)
     }
 }
